@@ -26,11 +26,11 @@ def main():
         <style>
         [data-testid="stSidebar"] {
             background-color: #FF2E4D !important;
-            min-width: 350px !important;
-            width: 350px !important;
+            min-width: 380px !important;
+            width: 380px !important;
         }
         [data-testid="stSidebar"] > div {
-            width: 350px !important;
+            width: 380px !important;
         }
         /* 强制设置radio按钮容器宽度 */
         [data-testid="stSidebar"] .stRadio {
