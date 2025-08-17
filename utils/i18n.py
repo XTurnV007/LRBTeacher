@@ -1,6 +1,7 @@
 """
 国际化支持模块
 支持中文（默认）和英文界面
+Version: 2.0 - 修复翻译不生效问题
 """
 import streamlit as st
 import json
@@ -362,8 +363,15 @@ def language_selector():
         
         if selected_lang != current_lang:
             set_language(selected_lang)
+            # 强制清除缓存并重新运行
+            st.cache_data.clear()
+            st.rerun()
 
 def init_i18n():
     """初始化国际化"""
     if 'language' not in st.session_state:
         st.session_state.language = DEFAULT_LANGUAGE
+    
+    # 强制刷新翻译缓存
+    if hasattr(st, 'cache_data'):
+        st.cache_data.clear()

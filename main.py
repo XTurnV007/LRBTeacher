@@ -9,17 +9,21 @@ from utils.css_styles import apply_css_styles
 from utils.config_manager import show_config_panel, update_api_client_config
 from utils.i18n import init_i18n, t, language_selector
 
-# 设置页面配置
+# 设置页面配置 - 必须在其他 Streamlit 命令之前
 st.set_page_config(
-    page_title="LRBTeacher",  # 设置浏览器标签标题
-    page_icon="📚",  # 设置浏览器标签图标，可以是路径、URL或emoji
-    layout="wide",  # 设置页面布局为宽屏模式
-    initial_sidebar_state="expanded"  # 设置侧边栏初始状态为展开
+    page_title="LRBTeacher",  # 浏览器标签标题，无法动态翻译
+    page_icon="📚",
+    layout="wide",
+    initial_sidebar_state="expanded"
 )
 
 def main():
     # 初始化国际化
     init_i18n()
+    
+    # 强制清除所有缓存
+    if hasattr(st, 'cache_data'):
+        st.cache_data.clear()
     
     # 应用 CSS 样式
     apply_css_styles()
