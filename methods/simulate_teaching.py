@@ -5,6 +5,7 @@ from config.config import DEFAULT_MODEL
 from utils.chat_helpers import add_to_chat_history, build_prompt, clean_api_response, generate_image_url, generate_content
 from utils.css_styles import persona_card_styles
 from utils.api_client import get_api_client
+from utils.i18n import t
 import time
 
 def generate_persona(user_input):
@@ -74,7 +75,7 @@ def sync_session_state():
         st.session_state.notes.pop()
 
 def simulate_teaching_method():
-    st.title("模拟教学方法")
+    st.title(t('simulate_teaching'))
 
     if 'css_styles_loaded' not in st.session_state:
         st.markdown(persona_card_styles, unsafe_allow_html=True)
@@ -95,16 +96,16 @@ def simulate_teaching_method():
     )
 
     # 详细描述
-    st.markdown('<p class="description">方法简介：可以模拟小红书创建账号人设，并根据主题词和人设撰写小红书笔记。</p>', unsafe_allow_html=True)
+    st.markdown(f'<p class="description">{t("simulate_description")}</p>', unsafe_allow_html=True)
 
     global content_topic
 
-    st.write("请输入内容主题：")
-    content_topic_input = st.text_input("内容主题", key="content_topic_input")
+    st.write(t('enter_content_topic'))
+    content_topic_input = st.text_input(t('content_topic'), key="content_topic_input")
 
-    if st.button("生成人设"):
+    if st.button(t('generate_persona')):
         content_topic = content_topic_input
-        with st.spinner("正在生成人设..."):
+        with st.spinner(t('generating_persona')):
             persona = generate_persona(content_topic_input)
             print(persona)
             image_url = generate_image_url(persona)
@@ -153,7 +154,7 @@ def create_persona_card(description, image_url, idx):
     st.markdown(
         f"""
         <div class="persona-card">
-            <h5>人设卡片</h5>
+            <h5>{t('persona_card')}</h5>
             <img src="{image_url}" class="persona-avatar" alt="Avatar">
             <div style="height: auto; overflow: hidden; text-overflow: ellipsis;">
                 {card_html_content}
@@ -180,9 +181,9 @@ def create_persona_card(description, image_url, idx):
     )
 
     st.markdown('<div class="note-topic-container">', unsafe_allow_html=True)
-    note_topic = st.text_input("输入主题词以参照人设生成笔记", key=f"note_topic_{idx}")
-    if st.button("开始生成", key=f"generate_{idx}"):
-        with st.spinner("正在生成笔记..."):
+    note_topic = st.text_input(t('enter_topic_for_notes'), key=f"note_topic_{idx}")
+    if st.button(t('start_generate'), key=f"generate_{idx}"):
+        with st.spinner(t('generating_notes')):
             notes = ""
             streamed_response = st.empty()  # 创建占位符用于显示流式响应
 
@@ -191,7 +192,7 @@ def create_persona_card(description, image_url, idx):
                 streamed_response.markdown(
                     f"""
                     <div style='background-color: #FFFFFF; padding: 10px; border-radius: 10px; margin: 5px 0;'>
-                        <strong>生成中:</strong> {notes}
+                        <strong>{t('generating')}:</strong> {notes}
                     </div>
                     """,
                     unsafe_allow_html=True

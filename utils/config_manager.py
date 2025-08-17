@@ -5,40 +5,41 @@
 
 import streamlit as st
 from config.config import DEFAULT_MODEL, IMAGE_MODEL, MODEL_PARAMS, ENABLE_THINKING
+from utils.i18n import t
 
 def show_config_panel():
     """显示配置面板"""
     st.sidebar.markdown("---")
     
     # API密钥管理
-    st.sidebar.markdown("### 🔑 API密钥管理")
+    st.sidebar.markdown(f"### 🔑 {t('api_key_management')}")
     
     # 显示配置提示
     if not st.session_state.get("openai_api_key", ""):
-        st.sidebar.warning("⚠️ 请配置智谱AI API密钥以使用完整功能")
+        st.sidebar.warning(f"⚠️ {t('configure_api_key_warning')}")
     
     # OpenAI API密钥输入
     openai_key = st.sidebar.text_input(
-        "智谱AI API密钥",
+        t('zhipu_api_key'),
         type="password",
         value=st.session_state.get("openai_api_key", ""),
-        placeholder="请输入您的智谱AI API密钥",
+        placeholder=t('enter_api_key_placeholder'),
         key="openai_key_input",
-        help="用于调用GLM模型的API密钥，获取地址：https://open.bigmodel.cn/"
+        help=t('api_key_help')
     )
     
     # 保存API密钥
-    if st.sidebar.button("💾 保存API密钥", key="save_api_keys"):
+    if st.sidebar.button(f"💾 {t('save_api_key')}", key="save_api_keys"):
         st.session_state.openai_api_key = openai_key
-        st.sidebar.success("API密钥已保存！")
+        st.sidebar.success(t('api_key_saved'))
     
     # 显示API密钥状态
     openai_status = "✅" if st.session_state.get("openai_api_key", "") else "❌"
-    st.sidebar.markdown(f"智谱AI: {openai_status}")
-    st.sidebar.markdown("Bing搜索: ✅ (已内置)")  # 显示Bing搜索已内置
+    st.sidebar.markdown(f"{t('zhipu_ai')}: {openai_status}")
+    st.sidebar.markdown(t('bing_search_builtin'))  # 显示Bing搜索已内置
     
     st.sidebar.markdown("---")
-    st.sidebar.markdown("### ⚙️ 模型配置")
+    st.sidebar.markdown(f"### ⚙️ {t('model_configuration')}")
     
     # 模型选择
     model_options = [
@@ -48,7 +49,7 @@ def show_config_panel():
     ]
     
     current_model = st.sidebar.selectbox(
-        "选择聊天模型",
+        t('select_chat_model'),
         model_options,
         index=model_options.index(DEFAULT_MODEL) if DEFAULT_MODEL in model_options else 0,
         key="model_selector"
@@ -61,17 +62,17 @@ def show_config_panel():
     ]
     
     current_image_model = st.sidebar.selectbox(
-        "选择图像模型",
+        t('select_image_model'),
         image_model_options,
         index=image_model_options.index(IMAGE_MODEL) if IMAGE_MODEL in image_model_options else 0,
         key="image_model_selector"
     )
     
     # 参数配置
-    st.sidebar.markdown("#### 模型参数")
+    st.sidebar.markdown(f"#### {t('model_parameters')}")
     
     temperature = st.sidebar.slider(
-        "Temperature (随机性)",
+        t('temperature_randomness'),
         min_value=0.0,
         max_value=1.0,
         value=MODEL_PARAMS.get("temperature", 0.7),
@@ -89,20 +90,20 @@ def show_config_panel():
     )
     
     enable_stream = st.sidebar.checkbox(
-        "启用流式输出",
+        t('enable_streaming'),
         value=MODEL_PARAMS.get("stream", True),
         key="stream_checkbox"
     )
     
     enable_thinking = st.sidebar.checkbox(
-        "启用深度思考模式",
+        t('enable_thinking_mode'),
         value=ENABLE_THINKING,
-        help="仅支持 glm-4.5 和 glm-4-plus 模型",
+        help=t('thinking_mode_help'),
         key="thinking_checkbox"
     )
     
     # 保存配置按钮
-    if st.sidebar.button("💾 保存配置", key="save_config"):
+    if st.sidebar.button(f"💾 {t('save_configuration')}", key="save_config"):
         save_config(
             model=current_model,
             image_model=current_image_model,
@@ -111,13 +112,13 @@ def show_config_panel():
             stream=enable_stream,
             thinking=enable_thinking
         )
-        st.sidebar.success("配置已保存！")
+        st.sidebar.success(t('configuration_saved'))
         st.rerun()
     
     # 重置配置按钮
-    if st.sidebar.button("🔄 重置为默认", key="reset_config"):
+    if st.sidebar.button(f"🔄 {t('reset_to_default')}", key="reset_config"):
         reset_config()
-        st.sidebar.success("已重置为默认配置！")
+        st.sidebar.success(t('reset_to_default_success'))
         st.rerun()
     
     return {

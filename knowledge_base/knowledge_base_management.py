@@ -8,6 +8,7 @@ import chardet
 import fitz  # PyMuPDF
 from typing import List, Tuple
 from utils.config_manager import get_api_keys
+from utils.i18n import t
 
 def get_api_key():
     """获取API密钥"""
@@ -84,15 +85,15 @@ def read_pdf_content(uploaded_file):
     return content
 
 def knowledge_base_management_method():
-    st.title("知识库管理")
-    option = st.selectbox("选择操作", ["上传文件", "搜索文件", "查看知识库"])
+    st.title(t('knowledge_base_management'))
+    option = st.selectbox(t('select_operation'), [t('upload_files'), t('search_files'), t('view_knowledge_base')])
     
-    if option == "上传文件":
-        uploaded_files = st.file_uploader("选择文件上传", accept_multiple_files=True, type=["txt", "pdf"])
-        if st.button("处理文件"):
+    if option == t('upload_files'):
+        uploaded_files = st.file_uploader(t('choose_files_to_upload'), accept_multiple_files=True, type=["txt", "pdf"])
+        if st.button(t('process_files')):
             if uploaded_files:
                 embeddings = []
-                with st.spinner("正在处理文件..."):
+                with st.spinner(t('processing_files')):
                     for uploaded_file in uploaded_files:
                         try:
                             if uploaded_file.name.endswith(".pdf"):
@@ -101,35 +102,35 @@ def knowledge_base_management_method():
                                 content = read_file_content(uploaded_file)
                             embedding = get_embeddings_for_long_text(content)
                             embeddings.append((uploaded_file.name, embedding))
-                            st.success(f"文件 {uploaded_file.name} 已处理。")
+                            st.success(t('file_processed', uploaded_file.name))
                         except Exception as e:
-                            st.error(f"处理文件 {uploaded_file.name} 时发生错误: {str(e)}")
+                            st.error(t('file_processing_error', uploaded_file.name, str(e)))
                 if embeddings:
                     store_embeddings_to_file(embeddings, EMBEDDING_FILE)
-                    st.success("所有文件已处理并存储嵌入向量。")
+                    st.success(t('all_files_processed'))
             else:
-                st.warning("请上传文件。")
+                st.warning(t('please_upload_files'))
     
-    elif option == "搜索文件":
-        query_text = st.text_input("输入查询文本:")
-        if st.button("搜索"):
+    elif option == t('search_files'):
+        query_text = st.text_input(t('enter_query_text'))
+        if st.button(t('search')):
             if query_text:
-                with st.spinner("正在搜索..."):
+                with st.spinner(t('searching')):
                     embeddings = load_embeddings_from_file(EMBEDDING_FILE)
                     index = build_faiss_index(embeddings)
                     query_embedding = get_embeddings_for_long_text(query_text)
                     results = search_similar_texts(query_embedding, embeddings, index)
-                    st.write("搜索结果:")
+                    st.write(t('search_results'))
                     for result in results:
-                        st.write(f"文件名: {result[0]}, 相似度: {result[1]}")
+                        st.write(f"{t('filename')} {result[0]}, {t('similarity')} {result[1]}")
             else:
-                st.warning("请输入查询文本。")
+                st.warning(t('please_enter_query'))
     
-    elif option == "查看知识库":
+    elif option == t('view_knowledge_base'):
         embeddings = load_embeddings_from_file(EMBEDDING_FILE)
-        st.write("现有知识库内容:")
+        st.write(t('existing_knowledge_base'))
         for text, _ in embeddings:
-            st.write(f"文件名: {text}")
+            st.write(f"{t('filename')} {text}")
 
 def search_local_knowledge_base(query_embedding: List[float], top_k: int = 5) -> List[Tuple[str, float]]:
     embeddings = load_embeddings_from_file(EMBEDDING_FILE)

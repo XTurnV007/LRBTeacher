@@ -1,6 +1,7 @@
 import streamlit as st
 from utils.api_client import create_chat_completion
 from utils.context_manager import add_to_chat_history
+from utils.i18n import t
 import time
 import re
 
@@ -56,7 +57,7 @@ def display_stars(score):
     return stars
 
 def assessment_teaching_method():
-    st.title("评估式教学方法")
+    st.title(t('assessment_teaching'))
     st.markdown(
         """
         <style>
@@ -72,7 +73,7 @@ def assessment_teaching_method():
     )
 
     # 方法简介
-    st.markdown('<p class="description">方法简介：扮演老师给学生的作业打分，用户在这里输入自己创作的笔记，将得到评分和反馈建议。</p>', unsafe_allow_html=True)
+    st.markdown(f'<p class="description">{t("assessment_description")}</p>', unsafe_allow_html=True)
 
     # 初始化 session_state 变量
     if "assessment_input" not in st.session_state:
@@ -85,7 +86,7 @@ def assessment_teaching_method():
         st.session_state.new_evaluation = False  # 控制是否刚完成评估
 
     # 使用 session_state 存储输入和结果
-    content_input = st.text_area("撰写内容", value=st.session_state.assessment_input, key="input_area")
+    content_input = st.text_area(t('write_content'), value=st.session_state.assessment_input, key="input_area")
     st.markdown("""
     <style>
         .stTextArea textarea {
@@ -94,8 +95,8 @@ def assessment_teaching_method():
     </style>
     """, unsafe_allow_html=True)
 
-    if st.button("评估内容"):
-        with st.spinner("正在评估..."):
+    if st.button(t('assess_content')):
+        with st.spinner(t('assessing')):
             # 调用流式评估函数
             st.session_state.new_evaluation = True  # 标记新评估完成
             assessment_result = ""
@@ -118,7 +119,7 @@ def assessment_teaching_method():
                 score = extract_score(assessment_result)
                 if score is not None:
                     stars = display_stars(score)
-                    score_placeholder.markdown(f"**评分：** {stars} ({score}/10)")
+                    score_placeholder.markdown(f"**{t('score')}** {stars} ({score}/10)")
                 
                 time.sleep(0.06)  # 模拟流式延迟效果
 
@@ -129,7 +130,7 @@ def assessment_teaching_method():
 
     # 显示上次评估结果
     if st.session_state.assessment_result and not st.session_state.new_evaluation:
-        st.write("上次评估结果：")
+        st.write(t('last_assessment_result'))
         col1, col2 = st.columns([3, 1])
         
         with col1:
@@ -138,7 +139,7 @@ def assessment_teaching_method():
         with col2:
             if st.session_state.assessment_score is not None:
                 stars = display_stars(st.session_state.assessment_score)
-                st.markdown(f"**评分：** {stars} ({st.session_state.assessment_score}/10)")
+                st.markdown(f"**{t('score')}** {stars} ({st.session_state.assessment_score}/10)")
 
     # 重置新评估标记
     st.session_state.new_evaluation = False

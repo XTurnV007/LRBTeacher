@@ -3,6 +3,7 @@ from zhipuai import ZhipuAI
 from config.config import DEFAULT_MODEL
 from utils.context_manager import add_to_chat_history
 from utils.api_client import get_api_client
+from utils.i18n import t
 import re
 import random
 
@@ -108,8 +109,8 @@ def parse_question_response(response):
 
         return question, options
     except Exception as e:
-        st.error("解析问题时出错: 无法解析响应")
-        st.error(f"错误信息: {e}")
+        st.error(t('parse_error'))
+        st.error(f"{t('error_info')} {e}")
         return None, None
 
 
@@ -156,12 +157,12 @@ def validate_answer(question, selected_option):
 
         return is_correct, explanation
     except Exception as e:
-        st.error("解析答案反馈时出错")
-        st.error(f"错误信息: {e}")
+        st.error(t('parse_answer_error'))
+        st.error(f"{t('error_info')} {e}")
         return None, None
 
 def exercise_teaching_method():
-    st.title("小红书博主练习题")
+    st.title(t('exercise_teaching'))
     st.markdown(
         """
         <style>
@@ -177,11 +178,11 @@ def exercise_teaching_method():
     )
 
     # 详细描述
-    st.markdown('<p class="description">方法简介：可以生成主题词关于内容创作各方面的练习题，帮助用户学习内容创作知识。</p>', unsafe_allow_html=True)
-    notes_input = st.text_input("请输入你想练习的内容:", "")
+    st.markdown(f'<p class="description">{t("exercise_description")}</p>', unsafe_allow_html=True)
+    notes_input = st.text_input(t('enter_practice_content'), "")
     
-    if st.button("生成练习题"):
-        with st.spinner("正在生成练习题..."):
+    if st.button(t('generate_exercise')):
+        with st.spinner(t('generating_exercise')):
             response = fetch_question_from_api(notes_input)
             if response:
                 question, options = parse_question_response(response)
@@ -203,21 +204,21 @@ def exercise_teaching_method():
         for i, q in enumerate(st.session_state['questions']):
             question_text = q['question'].strip().rstrip('",')
             question_number = total_questions - i  # 计算当前题目的序号
-            st.write(f"**问题 {question_number}: {question_text}**")
-            selected_option = st.radio(f"请选择问题 {question_number} 的答案:", q['options'], key=f"selected_option_{question_number}")
+            st.write(f"**{t('question')} {question_number}: {question_text}**")
+            selected_option = st.radio(t('select_answer', question_number), q['options'], key=f"selected_option_{question_number}")
             if selected_option != q['selected_option']:
                 st.session_state['questions'][i]['selected_option'] = selected_option
             
-            if st.button(f"提交问题 {question_number} 的答案"):
-                with st.spinner("正在验证答案..."):
+            if st.button(t('submit_answer', question_number)):
+                with st.spinner(t('verifying_answer')):
                     is_correct, explanation = validate_answer(q['question'], selected_option)
                     st.session_state['questions'][i]['is_correct'] = is_correct
                     st.session_state['questions'][i]['explanation'] = explanation
                 
             # 显示答案反馈
             if q['is_correct'] is not None:
-                st.write(f"问题 {question_number} 答案是否正确: {q['is_correct']}")
-                st.write(f"解释: {q['explanation']}")
+                st.write(t('answer_correct', question_number) + f": {q['is_correct']}")
+                st.write(f"{t('explanation')}: {q['explanation']}")
 
 
 

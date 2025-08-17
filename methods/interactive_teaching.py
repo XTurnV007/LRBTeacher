@@ -3,6 +3,7 @@ from zhipuai import ZhipuAI
 from config.config import DEFAULT_MODEL
 from utils.context_manager import add_to_chat_history
 from utils.api_client import get_api_client
+from utils.i18n import t, get_language
 import random
 import time
 
@@ -149,7 +150,7 @@ def render_chat_bubble(chat, role):
         st.markdown(
             f"""
             <div style='background-color: #DCF8C6; padding: 10px; border-radius: 10px; margin: 5px 0; text-align: right;'>
-                <strong>你:</strong> {chat}
+                <strong>{t('you')}:</strong> {chat}
             </div>
             """,
             unsafe_allow_html=True
@@ -158,7 +159,7 @@ def render_chat_bubble(chat, role):
         st.markdown(
             f"""
             <div style='background-color: #FFFFFF; padding: 10px; border-radius: 10px; margin: 5px 0; border: 1px solid #E6E6E6;'>
-                <strong>导师:</strong> {chat}
+                <strong>{t('tutor')}:</strong> {chat}
             </div>
             """,
             unsafe_allow_html=True
@@ -174,7 +175,7 @@ def update_chat_history(chat_history, role, content):
 
 
 def interactive_teaching_method():
-    st.title("互动式教学方法")
+    st.title(t('interactive_teaching'))
 
     st.markdown(
         """
@@ -191,18 +192,19 @@ def interactive_teaching_method():
     )
 
     # 详细描述
-    st.markdown('<p class="description">方法简介：通过角色扮演和故事演绎的方式，用户分析导师（大语言模型）给的小红书角色和背景故事，思考并回答导师的提问。</p>', unsafe_allow_html=True)
+    st.markdown(f'<p class="description">{t("interactive_description")}</p>', unsafe_allow_html=True)
     
     if "chat_history" not in st.session_state:
         st.session_state.chat_history = []
         st.session_state.started = False
 
     if not st.session_state.started:
-        if st.button("开始"):
+        if st.button(t('start')):
             st.session_state.started = True
             # 初始化聊天记录，包含系统消息
+            system_message = "同学你好~我将为你创建角色和背景故事，认真阅读下面的内容哦~" if get_language() == 'zh' else "Hello! I will create a character and background story for you. Please read the content below carefully~"
             st.session_state.chat_history = [
-                {'role': 'system', 'content': "同学你好~我将为你创建角色和背景故事，认真阅读下面的内容哦~"}
+                {'role': 'system', 'content': system_message}
             ]
             st.rerun()
 
@@ -218,7 +220,7 @@ def interactive_teaching_method():
 
             # 初始角色生成逻辑（仅在聊天记录中只有系统消息时触发）
             if len(st.session_state.chat_history) == 1:  # 系统消息已初始化
-                with st.spinner("正在生成初始回复..."):
+                with st.spinner(t('generating_initial_reply')):
                     random_note = random.choice(knowledge_points)
                     random_topic = random.choice(topic_points)
                     initial_prompt = f'''根据主题{random_topic},为用户拟定一个小红书角色和生动有趣的背景故事（包括背景、内容方向、目标受众以及营销策略），并根据角色，需要提出一个易于回答的且与小红书内容创作相关的问题。从以下内容中选题：{random_note}；'''
@@ -231,7 +233,7 @@ def interactive_teaching_method():
                         streamed_response.markdown(
                             f"""
                             <div style='background-color: #FFFFFF; padding: 10px; border-radius: 10px; margin: 5px 0; border: 1px solid #E6E6E6;'>
-                                <strong>导师:</strong> {response_content}
+                                <strong>{t('tutor')}:</strong> {response_content}
                             </div>
                             """,
                             unsafe_allow_html=True
@@ -252,16 +254,16 @@ def interactive_teaching_method():
 
             # 使用 `value` 绑定到 `st.session_state.user_input_state`，而不是直接修改 `st.session_state.user_input`
             user_input = st.text_area(
-                "请输入你的回答:",
+                t('enter_answer'),
                 value=st.session_state.user_input_state,
                 key="user_input",  # 保留组件唯一键
-                placeholder="请输入内容..."
+                placeholder=t('enter_content_placeholder')
             )
 
             # 同步输入框的内容到辅助状态变量
             st.session_state.user_input_state = user_input
 
-            if st.button("发送", key="send_button"):
+            if st.button(t('send'), key="send_button"):
                 if user_input.strip():
                     # 将用户输入添加到聊天记录
                     st.session_state.chat_history.append({"role": "user", "content": user_input})
@@ -274,7 +276,7 @@ def interactive_teaching_method():
         if st.session_state.chat_history and st.session_state.chat_history[-1]["role"] == "user":
             user_input = st.session_state.chat_history[-1]["content"]
             with chat_container:
-                with st.spinner("正在生成回复..."):
+                with st.spinner(t('generating_reply')):
                     # 动态情绪价值反馈
                     positive_feedback = (
                         f""
@@ -300,7 +302,7 @@ def interactive_teaching_method():
                         streamed_response.markdown(
                             f"""
                             <div style='background-color: #FFFFFF; padding: 10px; border-radius: 10px; margin: 5px 0; border: 1px solid #E6E6E6;'>
-                                <strong>导师:</strong> {response_content}
+                                <strong>{t('tutor')}:</strong> {response_content}
                             </div>
                             """,
                             unsafe_allow_html=True

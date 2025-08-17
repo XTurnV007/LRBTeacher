@@ -18,6 +18,11 @@ LRBTeacher 是一个基于智谱AI GLM模型的智能内容创作助手，专门
 
 ## ✨ 核心功能
 
+### 🌐 多语言支持 (新功能!)
+- **中英文双语界面**: 支持中文（默认）和英文界面
+- **实时语言切换**: 无需重启应用即可切换语言
+- **完整国际化**: 所有界面元素、提示信息均支持多语言
+
 ### 🎯 多样化教学模式
 - **模拟教学方法**: 基于用户输入生成个性化人设，并创作相应风格的小红书笔记
 - **互动式教学方法**: 通过知识点问答和实时反馈提升创作技能
@@ -70,6 +75,19 @@ streamlit run main.py
 5. **访问应用**
 在浏览器中打开 `http://localhost:8501`
 
+### 🌐 语言切换
+
+LRBTeacher 支持中英文双语界面：
+
+1. 在应用侧边栏底部找到"语言 / Language"选择器
+2. 选择你想要的语言（中文/English）
+3. 界面会立即切换到所选语言
+
+**演示国际化功能**：
+```bash
+streamlit run demo_i18n.py
+```
+
 ## 📁 项目结构
 
 ```
@@ -93,10 +111,15 @@ LRBTeacher/
 │   ├── api_client.py    # API客户端
 │   ├── chat_helpers.py  # 聊天助手
 │   ├── stream_handler.py # 流处理
-│   └── css_styles.py    # 样式文件
+│   ├── css_styles.py    # 样式文件
+│   └── i18n.py         # 国际化支持
 ├── internet_search/     # 网络搜索模块
 ├── static/             # 静态资源
-└── docs/               # 文档
+├── docs/               # 文档
+├── demo_i18n.py        # 国际化功能演示
+├── test_i18n_completeness.py # 国际化完整性测试
+├── README_I18N.md      # 国际化技术文档
+└── LANGUAGE_GUIDE.md   # 语言支持指南
 ```
 
 ## 🎮 使用指南
@@ -140,6 +163,12 @@ MODEL_PARAMS = {
     "stream": True,
 }
 ```
+
+## 📚 相关文档
+
+- **[国际化技术文档](README_I18N.md)**: 详细的国际化开发指南
+- **[语言支持指南](LANGUAGE_GUIDE.md)**: 用户语言切换使用说明
+- **[API改进文档](README_API_IMPROVEMENTS.md)**: API功能改进说明
 
 ## 🤝 贡献指南
 

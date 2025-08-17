@@ -7,6 +7,7 @@ from methods.assessment_teaching import assessment_teaching_method
 from knowledge_base.knowledge_base_management import knowledge_base_management_method
 from utils.css_styles import apply_css_styles
 from utils.config_manager import show_config_panel, update_api_client_config
+from utils.i18n import init_i18n, t, language_selector
 
 # 设置页面配置
 st.set_page_config(
@@ -17,6 +18,9 @@ st.set_page_config(
 )
 
 def main():
+    # 初始化国际化
+    init_i18n()
+    
     # 应用 CSS 样式
     apply_css_styles()
     
@@ -46,11 +50,11 @@ def main():
     
     # 在侧边栏中添加 Logo 和标题
     st.sidebar.markdown(
-        """
+        f"""
         <div style="padding-left: 24px; display: flex; align-items: center; margin-bottom: 20px;">
             <img src="https://raw.githubusercontent.com/XTurnV007/LRBTeacher/refs/heads/master/static/LBRTeacher.svg" 
                 alt="Logo" style="width: 70px; height: auto; margin-right: 20px;">
-            <h1 style="color: white; margin: 0; font-size:30px; font-weight:bold;">LRBTeacher</h1>
+            <h1 style="color: white; margin: 0; font-size:30px; font-weight:bold;">{t('app_title')}</h1>
         </div>
         """,
         unsafe_allow_html=True
@@ -58,9 +62,9 @@ def main():
 
     
     st.sidebar.markdown(
-        """
+        f"""
         <div style="font-weight: bold; font-size: 14px; color: white; letter-spacing: 1px; font-family: 'Microsoft YaHei', sans-serif;margin-bottom: 40px;">
-            一个由大语言模型驱动的小红书内容创作教练
+            {t('app_subtitle')}
         </div>
         """,
         unsafe_allow_html=True
@@ -77,10 +81,10 @@ def main():
         unsafe_allow_html=True
     )
     section = st.sidebar.radio(
-        "选择一个功能",
+        t('select_function'),
         [
-            "教学模式",
-            "知识库管理"
+            t('teaching_mode'),
+            t('knowledge_base_management')
         ],
         format_func=lambda x: f"⚙️ {x}"  # 添加图标
     )
@@ -97,44 +101,45 @@ def main():
         unsafe_allow_html=True
     )
 
-    if section == "教学模式":
+    if section == t('teaching_mode'):
         method = st.sidebar.selectbox(
-            "请选择一种教学方法",
+            t('select_teaching_method'),
             [
-                "模拟教学方法",
-                "互动式教学方法",
-                "练习式教学方法",
-                "知识总结式教学方法",
-                "评估式教学方法"
+                t('simulate_teaching'),
+                t('interactive_teaching'),
+                t('exercise_teaching'),
+                t('knowledge_summary'),
+                t('assessment_teaching')
             ],
             format_func=lambda x: f"📘 {x}"  # 添加图标
         )
 
-
-
-        if method == "模拟教学方法":
+        if method == t('simulate_teaching'):
             simulate_teaching_method()
-        elif method == "互动式教学方法":
+        elif method == t('interactive_teaching'):
             interactive_teaching_method()
-        elif method == "练习式教学方法":
+        elif method == t('exercise_teaching'):
             exercise_teaching_method()
-        elif method == "知识总结式教学方法":
+        elif method == t('knowledge_summary'):
             knowledge_summary_method()
-        elif method == "评估式教学方法":
+        elif method == t('assessment_teaching'):
             assessment_teaching_method()
-    elif section == "知识库管理":
+    elif section == t('knowledge_base_management'):
         knowledge_base_management_method()
 
+    # 显示语言选择器
+    language_selector()
+    
     # 显示配置面板并更新API客户端配置
     show_config_panel()
     update_api_client_config()
 
-        # 在侧边栏下方添加尾注
+    # 在侧边栏下方添加尾注
     st.sidebar.markdown(
-        """
+        f"""
         <div style="position: fixed; bottom: 20px; left: 50px; font-size: 14px; color: white; text-align: center;">
-            © 2025 LRBTeacher. All rights reserved. <br>
-            Powered by GLM
+            {t('copyright')} <br>
+            {t('powered_by')}
         </div>
         """,
         unsafe_allow_html=True

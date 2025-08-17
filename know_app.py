@@ -3,6 +3,7 @@ from zhipuai import ZhipuAI
 from config.config import DEFAULT_MODEL
 from utils.context_manager import add_to_chat_history
 from utils.api_client import get_api_client
+from utils.i18n import init_i18n, t, language_selector
 from graphviz import Digraph
 
 # 设置页面配置
@@ -77,20 +78,25 @@ def create_knowledge_graph(formatted_response):
     return graph
 
 def main():
+    # 初始化国际化
+    init_i18n()
+    
+    st.title(t('knowledge_graph_generator'))
+    
+    # 显示语言选择器
+    language_selector()
 
-    st.title("知识图谱生成器")
+    notes_input = st.text_area(t('enter_notes'), "", height=150)
 
-    notes_input = st.text_area("请输入你的笔记内容:", "", height=150)
-
-    if st.button("生成知识图谱"):
-        with st.spinner("正在生成知识图谱..."):
+    if st.button(t('generate_knowledge_graph')):
+        with st.spinner(t('generating_knowledge_graph')):
             response = fetch_knowledge_from_api(notes_input)
             if response:
                 formatted_response = format_markdown(response)
                 graph = create_knowledge_graph(formatted_response)
                 st.graphviz_chart(graph.source, use_container_width=True)
             else:
-                st.error("API 响应为空，请检查 API 请求。")
+                st.error(t('api_response_empty'))
 
 if __name__ == "__main__":
     main()

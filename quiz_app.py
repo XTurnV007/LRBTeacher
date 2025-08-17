@@ -3,6 +3,7 @@ from zhipuai import ZhipuAI
 from config.config import DEFAULT_MODEL
 from utils.context_manager import add_to_chat_history
 from utils.api_client import get_api_client
+from utils.i18n import init_i18n, t, language_selector
 import re
 
 def fetch_question_from_api(notes_input):
@@ -66,18 +67,24 @@ def parse_question_response(response):
 
         return question, formatted_options
     except Exception as e:
-        st.error("解析问题时出错: 无法解析响应")
-        st.error(f"错误信息: {e}")
+        st.error(t('parse_error'))
+        st.error(f"{t('error_info')} {e}")
         return None, None
 
 def main():
-    st.title("小红书博主练习题")
+    # 初始化国际化
+    init_i18n()
+    
+    st.title(t('xiaohongshu_exercise'))
+    
+    # 显示语言选择器
+    language_selector()
 
     # 用户输入
-    notes_input = st.text_input("请输入你的笔记内容:", "")
+    notes_input = st.text_input(t('enter_notes_content'), "")
 
-    if st.button("生成练习题"):
-        with st.spinner("正在生成练习题..."):
+    if st.button(t('generate_exercise')):
+        with st.spinner(t('generating_exercise')):
             response = fetch_question_from_api(notes_input)
             if response:
                 question, options = parse_question_response(response)
@@ -89,9 +96,9 @@ def main():
                     # 显示选项按钮
                     for index, option in enumerate(options, 1):
                         if st.button(f"{chr(64 + index)}. {option}"):
-                            st.write(f"你选择了: {chr(64 + index)}")
+                            st.write(f"{t('you_selected')}: {chr(64 + index)}")
             else:
-                st.error("API 响应为空，请检查 API 请求。")
+                st.error(t('api_response_empty'))
 
 if __name__ == "__main__":
     main()

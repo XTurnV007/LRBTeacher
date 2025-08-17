@@ -7,6 +7,7 @@ from utils.context_manager import add_to_chat_history
 from utils.api_client import get_api_client
 from knowledge_base.knowledge_base_management import search_local_knowledge_base, get_embeddings_for_long_text
 from internet_search.duckduckgo_search import internet_search
+from utils.i18n import t
 import math
 import random
 
@@ -190,7 +191,7 @@ def plot_knowledge_graph(graph):
     return fig
 
 def knowledge_summary_method():
-    st.title("知识总结式教学方法")
+    st.title(t('knowledge_summary'))
     st.markdown(
         """
         <style>
@@ -206,19 +207,19 @@ def knowledge_summary_method():
     )
 
     # 详细描述
-    st.markdown('<p class="description">方法简介：可以将用户输入主题词的相关知识（知识库+互联网搜索）总结成知识图谱。</p>', unsafe_allow_html=True)
+    st.markdown(f'<p class="description">{t("knowledge_summary_description")}</p>', unsafe_allow_html=True)
     if "graph_data" not in st.session_state:
         st.session_state.graph_data = None
 
-    notes_input = st.text_area("请输入你想要学习的知识:")
+    notes_input = st.text_area(t('enter_knowledge_to_learn'))
 
-    if st.button("生成知识图谱"):
-        with st.spinner("正在生成知识图谱..."):
-            with st.spinner("正在从知识库检索信息..."):
+    if st.button(t('generate_knowledge_graph')):
+        with st.spinner(t('generating_knowledge_graph')):
+            with st.spinner(t('retrieving_from_knowledge_base')):
                 query_embedding = get_embeddings_for_long_text(notes_input)
                 knowledge_base_result = search_local_knowledge_base(query_embedding)
 
-            with st.spinner("正在进行联网搜索..."):
+            with st.spinner(t('searching_internet')):
                 internet_search_result = internet_search(notes_input)
 
             combined_knowledge_base_result = '\n'.join([f"文件名: {result[0]}, 相似度: {result[1]}" for result in knowledge_base_result])
@@ -230,7 +231,7 @@ def knowledge_summary_method():
                 graph = create_knowledge_graph(formatted_response, notes_input)
                 st.session_state.graph_data = plot_knowledge_graph(graph)
             else:
-                st.error("API 响应为空，请检查 API 请求。")
+                st.error(t('api_response_empty'))
 
     if st.session_state.graph_data:
         st.plotly_chart(st.session_state.graph_data, use_container_width=True)
