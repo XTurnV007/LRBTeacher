@@ -5,3 +5,11 @@ networkx
 graphviz
 streamlit
 duckduckgo_search
+zhipuai
+numpy
+faiss-cpu
+requests
+plotly
+pandas
+scipy
+statsmodels
