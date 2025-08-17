@@ -25,8 +25,19 @@ def main():
         """
         <style>
         [data-testid="stSidebar"] {
-            background-color: #FF2E4D;
-            min-width: 350px;
+            background-color: #FF2E4D !important;
+            min-width: 350px !important;
+            width: 350px !important;
+        }
+        [data-testid="stSidebar"] > div {
+            width: 350px !important;
+        }
+        /* 强制设置radio按钮容器宽度 */
+        [data-testid="stSidebar"] .stRadio {
+            width: 100% !important;
+        }
+        [data-testid="stSidebar"] .stRadio > div {
+            width: 100% !important;
         }
         </style>
         """,

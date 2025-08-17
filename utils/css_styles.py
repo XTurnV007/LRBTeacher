@@ -67,28 +67,42 @@ def apply_css_styles():
     [data-testid="stSidebar"] .stSelectbox label {
         color: white !important;  /* 强制设置标题颜色为白色 */
     }
-    .stRadio > div > label {
-        margin-top:10px;
-        display: flex;
-        justify-content: left;
-        align-items: left;
-        padding: 10px;
-        border-radius: 10px;
-        border: 1px solid #e1e1e1;
-        width: 100%;
-        transition: all 0.3s ease;
+    /* 强制设置侧边栏radio按钮样式 */
+    [data-testid="stSidebar"] .stRadio > div > label {
+        margin-top:10px !important;
+        display: flex !important;
+        justify-content: left !important;
+        align-items: left !important;
+        padding: 10px !important;
+        border-radius: 10px !important;
+        border: 1px solid #e1e1e1 !important;
+        width: 100% !important;
+        min-width: 280px !important;
+        max-width: none !important;
+        box-sizing: border-box !important;
+        transition: all 0.3s ease !important;
     }
-    .stRadio > div > label:hover {
-        background-color: #f0f0f0;
+    [data-testid="stSidebar"] .stRadio > div > label:hover {
+        background-color: #f0f0f0 !important;
     }
-    .stRadio > div > label > div {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
+    [data-testid="stSidebar"] .stRadio > div > label > div {
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        flex-direction: column !important;
+        width: 100% !important;
     }
-    .stRadio > div > label > div > span {
-        margin-top: 5px;
+    [data-testid="stSidebar"] .stRadio > div > label > div > span {
+        margin-top: 5px !important;
+        width: 100% !important;
+        text-align: left !important;
+    }
+    /* 确保整个radio容器宽度 */
+    [data-testid="stSidebar"] .stRadio {
+        width: 100% !important;
+    }
+    [data-testid="stSidebar"] .stRadio > div {
+        width: 100% !important;
     }
     </style>
     """
