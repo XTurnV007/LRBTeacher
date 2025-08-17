@@ -37,7 +37,7 @@ def main():
     st.sidebar.markdown(
         """
         <div style="padding-left: 24px; display: flex; align-items: center; margin-bottom: 20px;">
-            <img src="https://raw.githubusercontent.com/XTurnV007/LBRTeacher/refs/heads/master/LBRTeacher.svg" 
+            <img src="https://raw.githubusercontent.com/XTurnV007/LRBTeacher/refs/heads/master/static/LBRTeacher.svg" 
                 alt="Logo" style="width: 70px; height: auto; margin-right: 20px;">
             <h1 style="color: white; margin: 0; font-size:30px; font-weight:bold;">LRBTeacher</h1>
         </div>
