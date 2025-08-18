@@ -76,7 +76,7 @@ TRANSLATIONS = {
         'api_response_empty': 'API 响应为空，请检查 API 请求。',
         
         # 测验应用
-        'xiaohongshu_exercise': '小红书博主练习题',
+        'Little Red Book_exercise': '小红书博主练习题',
         'enter_notes_content': '请输入你的笔记内容:',
         'you_selected': '你选择了:',
         
@@ -163,7 +163,7 @@ TRANSLATIONS = {
     'en': {
         # Main interface
         'app_title': 'LRBTeacher',
-        'app_subtitle': 'An AI-powered Xiaohongshu content creation coach driven by large language models',
+        'app_subtitle': 'An AI-powered Little Red Book content creation coach driven by large language models',
         'select_function': 'Select a Function',
         'teaching_mode': 'Teaching Mode',
         'knowledge_base_management': 'Knowledge Base Management',
@@ -179,7 +179,7 @@ TRANSLATIONS = {
         'assessment_teaching': 'Assessment Teaching Method',
         
         # Simulation teaching
-        'simulate_description': 'Method Introduction: Simulate creating Xiaohongshu account personas and write Xiaohongshu posts based on topics and personas.',
+        'simulate_description': 'Method Introduction: Simulate creating Little Red Book account personas and write Little Red Book posts based on topics and personas.',
         'content_topic': 'Content Topic',
         'enter_content_topic': 'Please enter content topic:',
         'generate_persona': 'Generate Persona',
@@ -191,7 +191,7 @@ TRANSLATIONS = {
         'generating': 'Generating:',
         
         # Interactive teaching
-        'interactive_description': 'Method Introduction: Through role-playing and story interpretation, users analyze Xiaohongshu characters and background stories given by the tutor (large language model), think and answer the tutor\'s questions.',
+        'interactive_description': 'Method Introduction: Through role-playing and story interpretation, users analyze Little Red Book characters and background stories given by the tutor (large language model), think and answer the tutor\'s questions.',
         'start': 'Start',
         'enter_answer': 'Please enter your answer:',
         'enter_content_placeholder': 'Please enter content...',
@@ -224,7 +224,7 @@ TRANSLATIONS = {
         'api_response_empty': 'API response is empty, please check API request.',
         
         # Quiz app
-        'xiaohongshu_exercise': 'Xiaohongshu Blogger Exercise',
+        'Little Red Book_exercise': 'Little Red Book Blogger Exercise',
         'enter_notes_content': 'Please enter your notes content:',
         'you_selected': 'You selected:',
         

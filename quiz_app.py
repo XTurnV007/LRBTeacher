@@ -75,7 +75,7 @@ def main():
     # 初始化国际化
     init_i18n()
     
-    st.title(t('xiaohongshu_exercise'))
+    st.title(t('Little Red Book_exercise'))
     
     # 显示语言选择器
     language_selector()

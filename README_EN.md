@@ -1,4 +1,4 @@
-# LRBTeacher - Xiaohongshu Content Creation Coach
+# LRBTeacher - Little Red Book Content Creation Coach
 
 <div align="center">
   <img src="static/LBRTeacher.svg" alt="LRBTeacher Logo" width="200"/>
@@ -7,19 +7,19 @@
   [![Streamlit](https://img.shields.io/badge/Streamlit-1.28+-red.svg)](https://streamlit.io/)
   [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
   
-  **An AI-powered intelligent content creation coach for Xiaohongshu (Little Red Book)**
+  **An AI-powered intelligent content creation coach for Little Red Book (Little Red Book)**
   
   English | [中文](README.md)
 </div>
 
 ## 📖 Project Overview
 
-LRBTeacher is an intelligent content creation assistant powered by Zhipu AI's GLM model, specifically designed for Xiaohongshu content creators. Through various teaching modes and intelligent knowledge base management, it helps users improve their content creation skills and generate high-quality Xiaohongshu posts.
+LRBTeacher is an intelligent content creation assistant powered by Zhipu AI's GLM model, specifically designed for Little Red Book content creators. Through various teaching modes and intelligent knowledge base management, it helps users improve their content creation skills and generate high-quality Little Red Book posts.
 
 ## ✨ Core Features
 
 ### 🎯 Diverse Teaching Modes
-- **Simulation Teaching**: Generate personalized personas based on user input and create corresponding Xiaohongshu posts
+- **Simulation Teaching**: Generate personalized personas based on user input and create corresponding Little Red Book posts
 - **Interactive Teaching**: Improve creation skills through knowledge Q&A and real-time feedback
 - **Exercise Teaching**: Provide hands-on practice opportunities to consolidate learning
 - **Knowledge Summary Teaching**: Systematically organize creation knowledge points
