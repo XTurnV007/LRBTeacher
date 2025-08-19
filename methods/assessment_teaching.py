@@ -47,9 +47,24 @@ def assess_content(content):
     return result
 
 def extract_score(assessment_result):
-    match = re.search(r"评分：(\d+)/10", assessment_result)
-    if match:
-        return int(match.group(1))
+    # 尝试多种评分格式的匹配
+    patterns = [
+        r"评分：(\d+)/10",
+        r"评分：(\d+)分",
+        r"评分[：:]\s*(\d+)",
+        r"得分[：:]\s*(\d+)",
+        r"分数[：:]\s*(\d+)",
+        r"(\d+)/10分",
+        r"(\d+)分"
+    ]
+    
+    for pattern in patterns:
+        match = re.search(pattern, assessment_result)
+        if match:
+            score = int(match.group(1))
+            # 确保评分在1-10范围内
+            if 1 <= score <= 10:
+                return score
     return None
 
 def display_stars(score):
@@ -141,17 +156,9 @@ def assessment_teaching_method():
                 stars = display_stars(st.session_state.assessment_score)
                 st.markdown(f"**{t('score')}** {stars} ({st.session_state.assessment_score}/10)")
 
-    # 重置新评估标记
-    st.session_state.new_evaluation = False
-
-
-            
-            # 确保最终评分更新
-            # score = extract_score(assessment_result)
-            # if score is not None:
-            #     stars = display_stars(score)
-            #     score_placeholder.markdown(f"**最终评分：** {stars} ({score}/10)")
-            # st.write(assessment_result)
+    # 重置新评估标记（在页面渲染完成后）
+    if st.session_state.new_evaluation:
+        st.session_state.new_evaluation = False
 
 # Streamlit app entry point
 if __name__ == "__main__":
