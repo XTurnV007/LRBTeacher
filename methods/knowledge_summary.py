@@ -156,17 +156,10 @@ def plot_knowledge_graph(graph):
         textposition="top center",
         hoverinfo='text',
         marker=dict(
-            showscale=True,
-            colorscale='YlGnBu',
             size=node_size,
             color=node_color,
-            colorbar=dict(
-                thickness=15,
-                title='Node Level',
-                xanchor='left',
-                titleside='right'
-            ),
-            line_width=2))
+            line=dict(width=2, color='rgba(50,50,50,0.5)')
+        ))
 
     fig = go.Figure(data=[edge_trace, node_trace],
                     layout=go.Layout(
